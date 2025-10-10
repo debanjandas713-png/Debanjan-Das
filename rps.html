@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rock Paper Scissors Game</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#result {
+    font-size: 24px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.score {
+    font-size: 20px;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Rock Paper Scissors</h1>
+    <p>Please enter your name:</p>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="startGame()">Start Game</button>
+    
+    <div id="gameArea" style="display:none;">
+        <h2>Welcome, <span id="playerName"></span>!</h2>
+        <p>Choose your move:</p>
+        <button onclick="play(0)">Rock</button>
+        <button onclick="play(1)">Paper</button>
+        <button onclick="play(2)">Scissors</button>
+        
+        <div id="result"></div>
+        <div class="score">
+            <p>Score - You: <span id="userScore">0</span> | Computer: <span id="computerScore">0</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+let userName = "";
+let userScore = 0;
+let computerScore = 0;
+const choices = ["Rock", "Paper", "Scissors"];
+
+function startGame() {
+    userName = document.getElementById('nameInput').value;
+    if (userName === "") {
+        alert("Please enter your name!");
+        return;
+    }
+    document.getElementById('playerName').textContent = userName;
+    document.getElementById('nameInput').parentElement.querySelector('button').style.display = 'none';
+    document.getElementById('nameInput').style.display = 'none';
+    document.getElementById('nameInput').previousElementSibling.style.display = 'none';
+    document.getElementById('gameArea').style.display = 'block';
+}
+
+function play(userChoice) {
+    const computerChoice = Math.floor(Math.random() * 3);
+    let result = "";
+    
+    if (userChoice === computerChoice) {
+        result = `Tie! Both chose ${choices[userChoice]}.`;
+    } else if (
+        (userChoice === 0 && computerChoice === 2) ||
+        (userChoice === 1 && computerChoice === 0) ||
+        (userChoice === 2 && computerChoice === 1)
+    ) {
+        result = `You Win! ${choices[userChoice]} beats ${choices[computerChoice]}.`;
+        userScore++;
+    } else {
+        result = `You Lose! ${choices[computerChoice]} beats ${choices[userChoice]}.`;
+        computerScore++;
+    }
+    
+    document.getElementById('result').textContent = result;
+    document.getElementById('userScore').textContent = userScore;
+    document.getElementById('computerScore').textContent = computerScore;
+}
+</script>
+</body>
+</html>
